@@ -1,0 +1,34 @@
+{
+  "Roy Benavidez": {
+    "summary": "U.S. Army Master Sergeant, Vietnam War. Rescued eight men under fire on May 2, 1968.",
+    "quote": "The shot you need when others count on you.",
+    "branch": "Army",
+    "color": "#1B2631",
+    "region": "United States",
+    "audience": "Vietnam War Veterans"
+  },
+  "Audie Murphy": {
+    "summary": "One of the most decorated U.S. soldiers of World War II, held off an entire company of German soldiers alone.",
+    "quote": "Courage brewed strong.",
+    "branch": "Army",
+    "color": "#3C3B6E",
+    "region": "United States",
+    "audience": "WWII Veterans"
+  },
+  "John Basilone": {
+    "summary": "Marine Gunnery Sergeant awarded the Medal of Honor for heroism during the Battle of Guadalcanal.",
+    "quote": "Strong enough for any fight.",
+    "branch": "Marines",
+    "color": "#800000",
+    "region": "United States",
+    "audience": "WWII and Pacific Theater Veterans"
+  },
+  "Chesty Puller": {
+    "summary": "Marine Lieutenant General Lewis 'Chesty' Puller is the most decorated Marine in U.S. history, serving with distinction in WWII and the Korean War.",
+    "quote": "Lead from the front, always.",
+    "branch": "Marines",
+    "color": "#8B0000",
+    "region": "United States",
+    "audience": "Korean War and WWII Veterans"
+  }
+}

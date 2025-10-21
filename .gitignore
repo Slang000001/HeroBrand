@@ -1,0 +1,15 @@
+# Ignore Python cache and virtual environments
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Ignore generated outputs
+output/
+
+# Ignore OS clutter
+.DS_Store
+
+# Ignore API key file if you ever create one
+apikey.txt
+api.key

@@ -1,0 +1,229 @@
+# ☕ Hero Brand Coffee – Creative Automation Pipeline (Proof of Concept)
+
+## 🧩 Overview
+This project demonstrates an **AI-driven creative automation pipeline** that generates marketing assets for social campaigns using **GenAI (Gemini 2.5 Flash)**.  
+The system accepts campaign briefs, reuses existing assets when available, and generates new ones when needed — automatically applying slogans, logos, and brand-consistent layouts.
+
+It was designed as a **proof of concept** to illustrate:
+- System design and automation architecture
+- Integration of AI-based creative tools
+- Responsible and reproducible asset generation workflows
+
+---
+
+## ⚙️ Features
+
+| Feature | Description |
+|----------|-------------|
+| **Campaign Brief Input** | Accepts hero, product, region, and campaign message via JSON or CLI |
+| **Asset Reuse** | Detects and reuses previously generated assets from `assets/` |
+| **AI Image Generation** | Uses the Gemini 2.5 Flash image model for missing assets |
+| **Multi-Aspect Renditions** | Produces 1x1, 9x16, and 16x9 aspect ratio variants |
+| **Text Overlay** | Adds a slogan banner dynamically sized for each image |
+| **Logo Placement** | Overlays a brand logo (bottom-right corner) |
+| **Organized Output** | Saves creatives under `output/<Hero>_<Product>/` folders |
+| **Error Handling** | Robust try/except blocks for file, image, and API operations |
+
+---
+
+## 🧠 Design Decisions
+
+### 1. **Separation of Concerns**
+Each major function handles one distinct responsibility:
+- `generate_base_image_gemini()` → AI image generation  
+- `generate_aspect_renditions()` → Resize + crop to multiple ratios  
+- `add_text_overlay()` → Dynamic slogan banner  
+- `add_logo()` → Logo compositing  
+- `find_existing_asset()` → Asset reuse logic
+
+This modularity makes it easy to test, maintain, and extend (e.g., plug in Firefly).
+
+---
+
+### 2. **Model Choice: Gemini 2.5 Flash**
+Gemini was chosen for **rapid prototyping** due to:
+- Simple Python SDK with API key authentication  
+- High image quality for product and lifestyle photography  
+- Fast response times for iterative testing  
+
+In production, this layer could easily swap to **Adobe Firefly**, maintaining the same architecture.
+
+---
+
+### 3. **Image Processing**
+- Implemented with **Pillow (PIL)** for compositing, resizing, and overlays.  
+- Chosen for simplicity and lightweight dependency footprint compared to OpenCV.  
+- LANCZOS resampling is used for highest-quality downscaling of marketing images.
+
+---
+
+### 4. **Aspect Ratio Logic**
+All creatives are normalized to three key aspect ratios:
+- `1x1` → Instagram, square ads  
+- `9x16` → Stories, Reels, vertical placements  
+- `16x9` → YouTube, horizontal web placements  
+
+The code scales and crops intelligently to preserve central content without distortion:
+```python
+scale = max(tw / w, th / h)
+left, top = (new_w - tw) / 2, (new_h - th) / 2
+cropped = resized.crop((left, top, left + tw, top + th))
+```
+
+---
+
+### 5. **Output Structure**
+Each campaign produces:
+```
+output/
+├── Roy_Benavidez_Bagged_Coffee_12_oz/
+│   ├── base.png
+│   ├── 1x1.png
+│   ├── 9x16.png
+│   ├── 16x9.png
+├── campaign.json
+```
+
+Assets are stored by hero and product to ensure deterministic reuse and reproducibility.
+
+---
+
+### 6. **Error Handling and Resilience**
+- Graceful handling of missing files, fonts, or logo assets  
+- JSON validation for missing hero/product data  
+- Logs descriptive messages for every major step (📦 ✅ ⚠️ ❌)
+
+---
+
+## 🚀 Getting Started
+
+### ✅ Prerequisites
+- **Python 3.10+**
+- **Google GenAI SDK**
+- **Pillow**
+
+### 🧰 Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+*(requirements.txt example)*  
+```
+pillow
+google-genai
+```
+
+---
+
+### 🔑 Configure API Key
+Create an environment variable for your Gemini API key:
+```bash
+export GEMINI_API_KEY="your_api_key_here"
+```
+
+---
+
+### 📦 Directory Setup
+Expected folder structure:
+```
+input/
+ ├── heroes.json
+ ├── product_catalog.json
+ ├── hero_circular2.png
+assets/
+output/
+```
+
+---
+
+### 🧮 Example Data
+
+**heroes.json**
+```json
+{
+  "Roy Benavidez": {
+    "quote": "Fueling courage, one cup at a time.",
+    "summary": "A hero whose valor inspires every blend.",
+    "branch": "Army",
+    "color": "#4B2E05"
+  }
+}
+```
+
+**product_catalog.json**
+```json
+{
+  "bagged_coffee": {
+    "name": "Bagged Coffee 12 oz",
+    "description": "Freshly roasted Hero Brand Coffee in 12 oz bags."
+  }
+}
+```
+
+---
+
+## 💻 Usage
+
+### Basic Example
+```bash
+python main.py --hero "Roy Benavidez" --product bagged_coffee --slogan "Fuel the Brave"
+```
+
+### Using an Existing Asset
+```bash
+python main.py --hero "Audie Murphy" --product gift_card --input_asset assets/Audie_Murphy_Gift_Card_base.png
+```
+
+### Batch Testing
+Run all hero/product combinations automatically:
+```bash
+python test_batch.py
+```
+
+---
+
+## 🧩 Example Output
+**Generated Creative (1x1)**
+```
+✅ Base image saved: output/Roy_Benavidez_Bagged_Coffee_12_oz/base.png
+✅ Generated rendition: output/Roy_Benavidez_Bagged_Coffee_12_oz/1x1.png
+📝 Slogan overlay added: output/.../1x1.png
+🏷️ Logo added: output/.../1x1.png
+```
+
+---
+
+## 📘 Key Learnings
+- Generative AI pipelines benefit from **stateless modularity**.
+- Modern AI development is **AI-assisted** — design by human, implemented collaboratively with LLMs.
+- Quality control and brand governance remain **critical human checkpoints** even in automated creative workflows.
+
+---
+
+## 📂 Repository Contents
+```
+.
+├── main.py                  # Core campaign builder
+├── test_batch.py            # Automation test script for multiple heroes/products
+├── input/                   # Hero data, product catalog, logo
+├── assets/                  # Reusable creative base files
+├── output/                  # Generated campaign folders
+├── README.md                # Documentation (this file)
+└── requirements.txt         # Dependency list
+```
+
+---
+
+## 👤 Author
+**Scott Lang**  
+Group Senior Manager, FDE Group Candidate  
+
+---
+
+## 🏁 License
+This project is provided as a **technical demonstration**.  
+All brand names and likenesses (e.g., *Hero Brand Coffee*) are fictional.
+
+---
+
+

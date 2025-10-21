@@ -1,0 +1,18 @@
+{
+  "bagged_coffee": {
+    "name": "Bagged Coffee 12 oz",
+    "description": "Freshly roasted Hero Brand Coffee in 12 oz resealable bags."
+  },
+  "large_bag": {
+    "name": "Bagged Coffee 24 oz",
+    "description": "Freshly roasted Hero Brand Coffee in 24 oz resealable bags."
+  },
+  "k_cup_pods": {
+    "name": "K-Cup Pods",
+    "description": "Convenient single-serve pods for Keurig brewers."
+  },
+  "gift_card": {
+    "name": "Gift Card",
+    "description": "Share the spirit of service with a Hero Brand Coffee gift card."
+  }
+}
