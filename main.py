@@ -11,15 +11,6 @@ DATA_PATH = Path("input/heroes.json")
 CATALOG_PATH = Path("input/product_catalog.json")
 OUTPUT_PATH = Path("output")
 LOGO_PATH = Path("input/hero_circular2.png")
-ASSET_PATH = Path("assets")  # <-- mock storage for existing assets
-OUTPUT_PATH.mkdir(exist_ok=True)
-ASSET_PATH.mkdir(exist_ok=True)
-
-# ---------- CONFIG ----------
-DATA_PATH = Path("input/heroes.json")
-CATALOG_PATH = Path("input/product_catalog.json")
-OUTPUT_PATH = Path("output")
-LOGO_PATH = Path("input/hero_circular2.png")
 ASSET_PATH = Path("assets")  # mock storage for existing assets
 OUTPUT_PATH.mkdir(exist_ok=True)
 ASSET_PATH.mkdir(exist_ok=True)
